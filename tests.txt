@@ -1,0 +1,4 @@
+curl http://localhost:3000/?network=goerli&target=0x464D64a24B56681022e4332EA047A03ebbdA5a26&infura=9914a83c05a74adab771194a1efffe8b&subdomain=goerli
+
+curl http://localhost:3000/?network=ethereum&target=0x6b3595068778dd592e39a122f4f5a5cf09c90fe2&infura=9914a83c05a74adab771194a1efffe8b&subdomain=mainnet
+
