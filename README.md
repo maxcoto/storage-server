@@ -1,7 +1,16 @@
+# install
 ```
-npm i
-npm start
+npm install
+npm run dev
 ```
 
-# make tests
-# make a deploy
+# tests
+. . .
+
+
+# docker
+```
+docker build --platform linux/amd64 -t jsonserver .
+docker run -dp 3000:3000 jsonserver
+```
+
