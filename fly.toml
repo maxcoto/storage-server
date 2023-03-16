@@ -1,8 +1,9 @@
-# fly.toml file generated for storagejson on 2023-03-16T09:33:10-03:00
+# fly.toml file generated for storageui on 2023-03-16T15:39:46-03:00
 
-app = "storagejson"
+app = "storageui"
 kill_signal = "SIGINT"
 kill_timeout = 5
+primary_region = "scl"
 processes = []
 
 [env]
