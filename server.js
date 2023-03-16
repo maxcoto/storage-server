@@ -4,7 +4,7 @@ const server = require('http').createServer(app);
 const { exec } = require("child_process");
 const fs = require('fs');
 const crypto = require('crypto');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 app.get('/', (req, res) => {
     let params = req.query;
