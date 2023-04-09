@@ -4,7 +4,12 @@ const server = require('http').createServer(app);
 const { exec } = require("child_process");
 const fs = require('fs');
 const crypto = require('crypto');
+const { networks } = require("./constants");
+const Web3 = require('web3');
+
+
 const port = process.env.PORT || 8080;
+const infura_key = process.env.INFURA_KEY || '85b362ba337e4c348faedff589c9026a';
 
 
 function compare( a, b ) {
@@ -21,22 +26,40 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
 app.get('/', (req, res) => {
     let params = req.query;
 
-    console.log(params);
+    const { network, target } = params;
 
-    if(!params?.network || !params?.target || !params?.infura || !params?.subdomain) {
+    if(!network || !target) {
         res.status(404);
-        res.send(JSON.stringify({ error: "wrong params" }));
+        res.send(JSON.stringify({ error: "missing params" }));
+        return;
+    }
+
+    const networkData = networks[network];
+
+    if(!networkData) {
+        res.status(404);
+        res.send(JSON.stringify({ error: "wrong network" }));
+        return;
+    }
+
+    const { subdomain, suffix } = networkData;
+    const infura = `https://${subdomain}.infura.io/v3/${infura_key}`;
+    const web3 = new Web3(infura);
+    const isValid = web3.utils.isAddress(target);
+
+     if(!isValid) {
+        res.status(404);
+        res.send(JSON.stringify({ error: "invalid address" }));
         return;
     }
 
     const uuid = crypto.randomUUID();
-    const target = params.network === 'ethereum' ? params.target : params.network + ':' + params.target;
-    const infura = `https://${params.subdomain}.infura.io/v3/${params.infura}`;
-
-    const command = `mkdir ${uuid} && cd ${uuid} && slither-read-storage ${target} --rpc-url ${infura} --value --json ${uuid}`;
+    const command = `mkdir ${uuid} && cd ${uuid} && slither-read-storage ${suffix}${target} --rpc-url ${infura} --value --json ${uuid}`;
 
     exec(command, (error, stdout, stderr) => {
         if (error) {

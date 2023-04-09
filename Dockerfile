@@ -6,6 +6,7 @@ COPY . .
 
 ENV NODE_ENV production
 ENV PORT 8080
+ENV INFURA_KEY 85b362ba337e4c348faedff589c9026a
 
 # RUN git clone --branch slr-deps https://github.com/crytic/slither.git
 # RUN pip install slither-analyzer
